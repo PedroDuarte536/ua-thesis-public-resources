@@ -1,0 +1,62 @@
+module interfaces-limits-extension {
+  yang-version 1.1;
+  namespace "http://av.it.pt//yang/interfaces-limits-extension";
+  prefix "oc-if-limits-ext";
+
+  import openconfig-interfaces {
+    prefix oc-if;
+  }
+
+  organization "ITAv";
+  contact "pedro.dld@av.it.pt";
+  description
+    "Augments openconfig-interfaces with a list of service limits.";
+
+  revision "2025-07-29" {
+    description "Initial revision with service-limits as a list.";
+  }
+
+  augment "/oc-if:interfaces/oc-if:interface" {
+    description
+      "Add a list of service-limits under each interface.";
+
+    container service-limits {
+      description "List of service limits applied to the interface.";
+
+      list service-limit {
+        key "name";
+        description
+          "Each entry defines a service limit.";
+
+        leaf name {
+          type string;
+          description "Identifier for the service limit (latency, corrupt, duplicate, loss, reorder, rate).";
+        }
+
+        leaf delay {
+          type decimal64;
+          units "ms";
+        }
+
+        leaf jitter {
+          type decimal64;
+          units "ms";
+        }
+
+        leaf correlation {
+          type decimal64;
+          units "%";
+        }
+
+        leaf size {
+          type uint64;
+        }
+
+        leaf percent {
+          type decimal64;
+          units "%";
+        }
+      }
+    }
+  }
+}
